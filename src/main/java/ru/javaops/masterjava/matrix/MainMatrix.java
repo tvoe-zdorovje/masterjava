@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
  * 03.07.2016
  */
 public class MainMatrix {
-    private static final int MATRIX_SIZE = 1000;
+    private static final int MATRIX_SIZE = 1200;
     private static final int THREAD_NUMBER = 10;
 
     private final static ExecutorService executor = Executors.newFixedThreadPool(MainMatrix.THREAD_NUMBER);
@@ -20,6 +20,7 @@ public class MainMatrix {
 
         double singleThreadSum = 0.;
         double concurrentThreadSum = 0.;
+        double forJoinSum = 0.;
         int count = 1;
         while (count < 6) {
             System.out.println("Pass " + count);
@@ -39,11 +40,24 @@ public class MainMatrix {
                 System.err.println("Comparison failed");
                 break;
             }
+
+            start = System.currentTimeMillis();
+            final int[][] forkJoinMatrixC = MatrixUtil.forkJoinMultiply(matrixA, matrixB);
+            duration = (System.currentTimeMillis() - start) / 1000.;
+            out("Fork join time, sec: %.3f", duration);
+            forJoinSum += duration;
+
+            if (!MatrixUtil.compare(matrixC, forkJoinMatrixC)) {
+                System.err.println("Comparison failed");
+                break;
+            }
+
             count++;
         }
         executor.shutdown();
         out("\nAverage single thread time, sec: %.3f", singleThreadSum / 5.);
         out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
+        out("Average forkJoin time, sec: %.3f", forJoinSum / 5.);
     }
 
     private static void out(String format, double ms) {
