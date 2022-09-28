@@ -39,7 +39,7 @@
                 <xs:element name="Groups">
                     <xs:complexType>
                         <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                            <xs:element type="xs:IDREF" name="group"/>
+                            <xs:element type="xs:IDREF" name="group" maxOccurs="unbounded" minOccurs="0"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
