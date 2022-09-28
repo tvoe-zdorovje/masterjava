@@ -2,17 +2,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://javaops.ru payload.xsd">
     <Users>
-        <User flag="active" city="kiv">
-            <email>gmail@gmail.com</email>
+        <User flag="active" city="kiv" email="gmail@gmail.com">
             <fullName>Full Name</fullName>
+            <Groups>
+                <group>topjava01</group>
+                <group>masterjava03</group>
+            </Groups>
         </User>
-        <User flag="superuser" city="spb">
-            <email>admin@javaops.ru</email>
+        <User flag="superuser" city="spb" email="admin@javaops.ru">
             <fullName>Admin</fullName>
+            <Groups>
+                <group>topjava07</group>
+                <group>topjava08</group>
+                <group>masterjava01</group>
+            </Groups>
         </User>
-        <User flag="deleted" city="spb">
-            <email>mail@yandex.ru</email>
+        <User flag="deleted" city="spb" email="mail@yandex.ru">
             <fullName>Deleted</fullName>
+            <Groups>
+                <group>basejava03</group>
+            </Groups>
         </User>
     </Users>
     <Cities>
@@ -20,4 +29,36 @@
         <City id="kiv">Киев</City>
         <City id="mnsk">Минск</City>
     </Cities>
+    <Projects>
+        <Project name="basejava">
+            <description>basejava description</description>
+            <Groups>
+                <Group name="basejava01" type="FINISHED"/>
+                <Group name="basejava02" type="CURRENT"/>
+                <Group name="basejava03" type="REGISTERING"/>
+            </Groups>
+        </Project>
+        <Project name="topjava">
+            <description>topjava description</description>
+            <Groups>
+                <Group name="topjava01" type="FINISHED"/>
+                <Group name="topjava02" type="FINISHED"/>
+                <Group name="topjava03" type="FINISHED"/>
+                <Group name="topjava04" type="FINISHED"/>
+                <Group name="topjava05" type="FINISHED"/>
+                <Group name="topjava06" type="FINISHED"/>
+                <Group name="topjava07" type="FINISHED"/>
+                <Group name="topjava08" type="CURRENT"/>
+                <Group name="topjava09" type="REGISTERING"/>
+            </Groups>
+        </Project>
+        <Project name="masterjava">
+            <description>masterjava description</description>
+            <Groups>
+                <Group name="masterjava01" type="FINISHED"/>
+                <Group name="masterjava02" type="CURRENT"/>
+                <Group name="masterjava03" type="REGISTERING"/>
+            </Groups>
+        </Project>
+    </Projects>
 </Payload>
