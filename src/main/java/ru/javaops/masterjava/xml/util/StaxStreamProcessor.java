@@ -43,6 +43,10 @@ public class StaxStreamProcessor implements AutoCloseable {
         return reader.getElementText();
     }
 
+    public String getAttributeValue(String attrName) {
+        return reader.getAttributeValue(null, attrName);
+    }
+
     @Override
     public void close() {
         if (reader != null) {
