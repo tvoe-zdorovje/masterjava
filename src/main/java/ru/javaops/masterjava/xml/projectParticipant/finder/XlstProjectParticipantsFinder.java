@@ -4,6 +4,9 @@ import ru.javaops.masterjava.xml.schema.User;
 
 import java.util.List;
 
+/**
+ * Does not have to implement
+ * */
 public class XlstProjectParticipantsFinder extends AbstractProjectParticipantsFinder {
     public XlstProjectParticipantsFinder(String fileName) {
         super(fileName);
