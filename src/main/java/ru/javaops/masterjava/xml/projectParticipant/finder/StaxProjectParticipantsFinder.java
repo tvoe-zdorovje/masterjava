@@ -7,8 +7,11 @@ import ru.javaops.masterjava.xml.schema.User;
 import ru.javaops.masterjava.xml.util.StaxStreamProcessor;
 
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.events.XMLEvent;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -17,6 +20,66 @@ import java.util.NoSuchElementException;
 public class StaxProjectParticipantsFinder extends AbstractProjectParticipantsFinder {
     public StaxProjectParticipantsFinder(String filePath) {
         super(filePath);
+    }
+
+    @Override
+    public File findAndWriteHTML(String projectName, String outputPath) {
+        final File file = new File(String.format("%s%s.html", outputPath, projectName));
+        try {
+            final File outputDir = file.getParentFile();
+            if (!outputDir.exists()) {
+                outputDir.mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        class HTMLWriter {
+            public void write(List<User> users) {
+                try (StaxStreamProcessor processor = new StaxStreamProcessor(Files.newOutputStream(file.toPath()))) {
+                    final XMLStreamWriter writer = processor.startBody(projectName);
+                    writer.writeStartElement("table");
+
+                    writer.writeStartElement("tr");
+                    writer.writeStartElement("th");
+                    writer.writeCharacters("name");
+                    writer.writeEndElement(); // th
+                    writer.writeStartElement("th");
+                    writer.writeCharacters("email");
+                    writer.writeEndElement(); // th
+                    writer.writeEndElement(); // tr
+
+                    writeUsers(users, writer);
+
+                    writer.writeEndElement(); // table
+
+                    processor.endBody();
+                } catch (XMLStreamException | IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            private void writeUsers(List<User> users, XMLStreamWriter writer) throws XMLStreamException {
+                for (User user : users) {
+                    writer.writeStartElement("tr");
+                    writer.writeStartElement("td");
+                    writer.writeCharacters(user.getFullName());
+                    writer.writeEndElement(); // td
+                    writer.writeStartElement("td");
+                    writer.writeCharacters(user.getEmail());
+                    writer.writeEndElement(); // td
+                    writer.writeEndElement(); // tr
+                }
+            }
+        }
+
+        final List<User> users = find(projectName);
+        new HTMLWriter().write(users);
+
+        return file;
     }
 
     @Override
