@@ -34,7 +34,7 @@
 - <a href="https://github.com/artyushov/idea-jmh-plugin">idea-jmh-plugin</a>, <a href="http://stackoverflow.com/questions/37720692/exception-while-trying-to-acquire-a-jmh-lock/#39562747">Exception while trying to acquire a JMH lock</a>
 - <a href="http://stackoverflow.com/a/1172371/548473">Maven latest dependency version</a>
 
-## ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 3. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFazM3V3FwQ3pLYkU">Формат XML. Создание схемы XSD.</a>
+## ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 3. <a href="https://drive.google.com/file/d/1rw1_MYmuTHwF7bs28M9mJB30ZcA3iQ0D">Формат XML. Создание схемы XSD.</a>
 #### 2_6_xml_scheme.patch
 - <a href="http://genberm.narod.ru/xml/lections/xml/introduction.html">История создания</a>. <a href="http://www.duct-tape-architect.ru/?p=315">XML формат и технологии</a>, <a href="https://ru.wikipedia.org/wiki/XML">XML</a>
 - <a href="http://stackoverflow.com/questions/33746/xml-attribute-vs-xml-element#33757">Attribute vs Element</a>. 
@@ -44,6 +44,7 @@
 ## Работа с XML в Java
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 4. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFM0hGNnVCMHN5YTg">JAXB, JAXP</a>
+Для генерации Java схемы из xsd проверьте плагин **Jakarta EE: Web Services (JAX-WS)**. Схема генериться через главное меню: _Tools -> XML Actions -> Generate Java code from XML Schema Using JAXB..._. Возможно пакет уже будет новый `jakarta`, поправте на `javax`.
 #### 2_7_JAXB.patch
 > - Добавил в `maven-surefire-plugin` UTF-8
 > - Убрал лишний `synchronized`  в `JaxbParser.marshal()` (уже есть в `JaxbMarshaller.marshal()`)
