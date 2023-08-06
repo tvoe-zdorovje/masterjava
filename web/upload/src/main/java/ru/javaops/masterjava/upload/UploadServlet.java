@@ -47,9 +47,10 @@ public class UploadServlet extends HttpServlet {
             try (InputStream is = filePart.getInputStream();) {
                 List<User> users = userProcessor.process(is);
 
-                DBIProvider.getDao(UserDao.class).insert(users, chunkSize);
+                final List<User> savedUsers = DBIProvider.getDao(UserDao.class)
+                    .insert(users, chunkSize);
 
-                webContext.setVariable("users", users);
+                webContext.setVariable("users", savedUsers);
                 engine.process("result", webContext, resp.getWriter());
             }
         } catch (Exception e) {
