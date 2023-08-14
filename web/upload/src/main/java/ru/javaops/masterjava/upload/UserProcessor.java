@@ -47,19 +47,20 @@ public class UserProcessor {
     /*
      * return failed users chunks
      */
-    public List<FailedEmails> process(final InputStream is, int chunkSize) throws XMLStreamException, JAXBException {
+    public List<FailedEmails> process(final StaxStreamProcessor processor, int chunkSize) throws XMLStreamException, JAXBException {
         log.info("Start processing with chunkSize=" + chunkSize);
 
         Map<String, Future<List<String>>> chunkFutures = new LinkedHashMap<>();  // ordered map (emailRange -> chunk future)
 
         int id = userDao.getSeqAndSkip(chunkSize);
         List<User> chunk = new ArrayList<>(chunkSize);
-        val processor = new StaxStreamProcessor(is);
         val unmarshaller = jaxbParser.createUnmarshaller();
 
-        while (processor.doUntil(XMLEvent.START_ELEMENT, "User")) {
+        while (processor.startElement("User", "Users")) {
             ru.javaops.masterjava.xml.schema.User xmlUser = unmarshaller.unmarshal(processor.getReader(), ru.javaops.masterjava.xml.schema.User.class);
-            final User user = new User(id++, xmlUser.getValue(), xmlUser.getEmail(), UserFlag.valueOf(xmlUser.getFlag().value()));
+//            final Object city = xmlUser.getCity(); Idk how to fix null
+            final String city = "spb";
+            final User user = new User(id++, xmlUser.getValue(), xmlUser.getEmail(), UserFlag.valueOf(xmlUser.getFlag().value()), city); // FIXME
             chunk.add(user);
             if (chunk.size() == chunkSize) {
                 addChunkFutures(chunkFutures, chunk);

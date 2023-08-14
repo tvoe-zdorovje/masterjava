@@ -26,10 +26,13 @@ public abstract class UserDao implements AbstractDao {
     @SqlQuery("SELECT nextval('user_seq')")
     abstract int getNextVal();
 
+    @SqlQuery("SELECT setval('user_seq', :it, true)")
+    abstract int setNextID(@Bind int id);
+
     @Transaction
     public int getSeqAndSkip(int step) {
         int id = getNextVal();
-        DBIProvider.getDBI().useHandle(h -> h.execute("ALTER SEQUENCE user_seq RESTART WITH " + (id + step)));
+        setNextID(id + step);
         return id;
     }
 
@@ -49,7 +52,7 @@ public abstract class UserDao implements AbstractDao {
     public abstract void clean();
 
     //    https://habrahabr.ru/post/264281/
-    @SqlBatch("INSERT INTO users (id, full_name, email, flag) VALUES (:id, :fullName, :email, CAST(:flag AS USER_FLAG))" +
+    @SqlBatch("INSERT INTO users (id, full_name, email, flag, city) VALUES (:id, :fullName, :email, CAST(:flag AS USER_FLAG), :city)" +
             "ON CONFLICT DO NOTHING")
 //            "ON CONFLICT (email) DO UPDATE SET full_name=:fullName, flag=CAST(:flag AS USER_FLAG)")
     public abstract int[] insertBatch(@BindBean List<User> users, @BatchChunkSize int chunkSize);
